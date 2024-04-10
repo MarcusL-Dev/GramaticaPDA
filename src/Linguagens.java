@@ -8,15 +8,22 @@ import pda.automata.lib.PDA;
 public class Linguagens {// PDA = (Q, Σ, δ, {qi}, F)
 
 	public static void expression() throws Exception {
-		/*  E -> T+E
+		/*  
+			E -> T+E
+			E -> T-E
+			E -> T=E
 			E -> T
 			T -> F*E
 			T -> F
 			T -> F==F
 			T -> I
+			T -> INCR
+			T -> DECR
 			F -> aF | a
 			F -> (E)
 			I -> if(T){E}
+			F -> fun(P){E}
+			W -> while(T){E}
 		*/
 		
 		char[] a_z = " abcdefghijklmnopqrstuvxywz".toCharArray();
@@ -38,6 +45,8 @@ public class Linguagens {// PDA = (Q, Σ, δ, {qi}, F)
 		qloop.addTransition(qf, null, '$', null);
 		
 		//E -> T+E
+		//E -> T-E
+		//E -> T=E
 		qloop.addTransition(sts[j], null, 'E', 'E');
 		sts[j].addTransition(sts[j+1], null, null, '+');
 		sts[j].addTransition(sts[j+1], null, null, '-');
@@ -56,11 +65,6 @@ public class Linguagens {// PDA = (Q, Σ, δ, {qi}, F)
 		sts[j].addTransition(sts[j+1], null, null, '='); ++j;
 		sts[j].addTransition(qloop, null, null, 'F');
 
-		//T -> F**F
-		qloop.addTransition(sts[++j], null, 'T', 'F');
-		sts[j].addTransition(sts[j+1], null, null, '*'); ++j;
-		sts[j].addTransition(sts[j+1], null, null, '*'); ++j;
-		sts[j].addTransition(qloop, null, null, 'F');
 
 		//T -> F++
 		qloop.addTransition(sts[++j], null, 'T', '+');
@@ -74,6 +78,7 @@ public class Linguagens {// PDA = (Q, Σ, δ, {qi}, F)
 		
 		//T -> F
 		qloop.addTransition(qloop, null, 'T', 'F');
+
 		//T -> I
 		qloop.addTransition(qloop, null, 'T', 'I');
 
@@ -133,7 +138,7 @@ public class Linguagens {// PDA = (Q, Σ, δ, {qi}, F)
 		qloop.addTransition(qloop, '-', '-', null);
 		qloop.addTransition(qloop, '+', '+', null);
 		qloop.addTransition(qloop, '*', '*', null);
-		
+
 		for (char c : a_z) qloop.addTransition(qloop, c, c, null);
 		
 		String tmp = Util.readFile("src/fonte.txt").trim();
