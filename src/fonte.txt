@@ -1,0 +1,10 @@
+b = fun(a){
+  if(a==b){
+    b
+  }
+}
+a = fun(b){
+  if(b==a){
+    a
+  }
+}
