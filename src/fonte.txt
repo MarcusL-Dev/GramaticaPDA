@@ -1,3 +1,1 @@
-f = fun(x){
-    return x*y++
-}
+b34h = 96876
